@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/neat-responder-323913/gcp-cronjob-gke', '.' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/neat-responder-323913/gcp-cronjob-gke']
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deploy.yaml
+  - --image=gcr.io/neat-responder-323913/gcp-cronjob-gke:latest
+  - --location=europe-west1-b
+  - --cluster=cluster-java-spring-boot
